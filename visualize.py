@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import numpy as np
+import pandas as pd
 import scipy.io as io
 
 # Assuming 'data' is a list of arrays, where each array is a trajectory
@@ -12,7 +12,7 @@ data = raw_mat['data'][0]  # Assuming data is structured this way
 # Plot each trajectory
 plt.figure(figsize=(10, 10))
 for trajectory in data:
-    plt.plot(trajectory[:, 1], trajectory[:, 0], label='Trajectory')  # longitude is x, latitude is y
+    plt.plot(trajectory[:, 0], trajectory[:, 1], label='data')  # longitude is x, latitude is y
 
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
