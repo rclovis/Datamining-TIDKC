@@ -7,8 +7,6 @@ from sklearn.metrics import euclidean_distances
 
 import random
 import sys
-MAX_INT = np.iinfo(np.int32).max
-MIN_FLOAT = sys.float_info.min
 
 class IsolationNNE:
     def __init__(self, psi=16, estimators=200, contamination=0.15, random_seed=None):
@@ -21,7 +19,7 @@ class IsolationNNE:
         self._centroids_radius = []
         self._ratio = []
 
-    def train(self, data):
+    def generate_centroid(self, data):
         x_data, y_data = data.shape
 
         self._centroids = np.empty([self.estimators, self.psi, y_data])
@@ -30,7 +28,7 @@ class IsolationNNE:
         self._centroids_radius = np.empty([self.estimators, self.psi])
 
         random_state = check_random_state(self.random_seed)
-        self._seeds = random_state.randint(MAX_INT, size=self.estimators)
+        self._seeds = random_state.randint(sys.maxsize, size=self.estimators)
 
         for i in range(self.estimators):
             rnd = check_random_state(self._seeds[i])
