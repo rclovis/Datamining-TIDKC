@@ -1,4 +1,11 @@
 A group project for CSIT 5210 (Data Mining and Knowledge Discovery)
+Group 3
+RABOT Clovis
+GONZALES Erwan
+LIU Runrong
+ZHANG Zexuan
+ARSHAD Muhammad Hassan
+SMITH Caroline
 
 
 
