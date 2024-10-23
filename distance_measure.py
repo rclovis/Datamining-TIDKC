@@ -39,7 +39,7 @@ def gdk(p, q):
     transformed_data_nystroem_p = fmap_nystroem.transform(p)
     transformed_data_nystroem_q = fmap_nystroem.transform(q)
     nystroem = np.dot(np.mean(transformed_data_nystroem_p, axis=0), np.mean(transformed_data_nystroem_q, axis=0))
-    print(nystroem)
+    # print(nystroem)
 
     # Random Fourier Features approximation
     fmap_rff = RBFSampler(gamma=1, n_components=10)
@@ -47,7 +47,7 @@ def gdk(p, q):
     transformed_data_rff_p = fmap_rff.transform(p)
     transformed_data_rff_q = fmap_rff.transform(q)
     rff = np.dot(np.mean(transformed_data_rff_p, axis=0), np.mean(transformed_data_rff_q, axis=0))
-    print(rff)
+    # print(rff)
 
     return k_g
 
