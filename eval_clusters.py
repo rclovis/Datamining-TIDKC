@@ -18,9 +18,7 @@ def nmi_score(true_labels, pred_labels):
 # functionality for evaluating adjusted rand index
 # rand index: "computes similarity measure between two clusterings by considering all pairs of samples
 # and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings"
-
 # ARI = (RI - expected RI) / (max(RI) - expected RI)
-
 # should normally be between 0 and 1, but can be as low as -0.5
 # note: ari(a, b) == ari(b, a)
 

@@ -1,5 +1,8 @@
 from sklearn_extra.cluster import KMedoids
 import tslearn.metrics as metrics
+from eval_clusters import nmi_score, ari_score
+
+
 
 from utils.dataloader import load_and_preprocess_data
 from utils.visualizer import visualize_trajectory
@@ -18,4 +21,6 @@ kmedoids.fit_predict(dists)
 # Print the labels
 print(kmedoids.labels_)
 
+
 visualize_trajectory(data, kmedoids.labels_)
+
