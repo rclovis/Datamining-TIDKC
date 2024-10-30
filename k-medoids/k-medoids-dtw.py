@@ -1,7 +1,10 @@
 from sklearn_extra.cluster import KMedoids
-import sys
+import os, sys
 import tslearn.metrics as metrics
-from eval_clusters import nmi_score, ari_score
+
+sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]))
+
+from utils.eval_clusters import nmi_score, ari_score
 from utils.dataloader import load_and_preprocess_data
 from utils.visualizer import visualize_trajectory
 

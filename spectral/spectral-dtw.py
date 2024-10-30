@@ -1,7 +1,10 @@
 from sklearn.cluster import SpectralClustering
-import sys
+import os, sys
 import tslearn.metrics as metrics
-from eval_clusters import nmi_score, ari_score
+
+sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]))
+
+from utils.eval_clusters import nmi_score, ari_score
 from utils.dataloader import load_and_preprocess_data
 from utils.visualizer import visualize_trajectory
 
@@ -14,21 +17,22 @@ if len(args) < 2:
 dataset = sys.argv[1]
 data, labels = load_and_preprocess_data(dataset)
 
+num_clusters = len(set(labels))
 
 # Calculate DTW distance matrix
 dists = metrics.cdist_dtw(data)
 
 # Fit and predict the spectral model with the distance matrix
-k = Counter(label)
+# k = Counter(label)
 
-kmedoids = KMedoids(n_clusters=5, random_state=0, metric='precomputed')
+spectrals = SpectralClustering(n_clusters=num_clusters, random_state=0, affinity='nearest_neighbors')
 
-kmedoids.fit_predict(dists)
+spectrals.fit_predict(dists)
 
 # Print the labels
-print(kmedoids.labels_)
-print("ARI: ", ari_score(labels, kmedoids.labels_))
-print("NMI: ", nmi_score(labels, kmedoids.labels_))
+print(spectrals.labels_)
+print("ARI: ", ari_score(labels, spectrals.labels_))
+print("NMI: ", nmi_score(labels, spectrals.labels_))
 
-visualize_trajectory(data, kmedoids.labels_)
+visualize_trajectory(data, spectrals.labels_)
 
