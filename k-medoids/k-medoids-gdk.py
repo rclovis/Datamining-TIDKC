@@ -1,5 +1,13 @@
 from sklearn_extra.cluster import KMedoids
 import numpy as np
+import os, sys
+
+sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]))
+
+from utils.eval_clusters import nmi_score, ari_score
+from utils.dataloader import load_and_preprocess_data
+from utils.visualizer import visualize_trajectory
+
 
 # Gaussian Dynamic Kernel (GDK) function - requires custom kernel implementation or a library that supports it.
 def gaussian_dynamic_kernel(X, sigma=1.0):
@@ -24,4 +32,7 @@ kmedoids = KMedoids(n_clusters=5, random_state=0, metric='precomputed')
 kmedoids.fit_predict(1 - gdk_similarity_matrix)  # converting similarity to a pseudo-distance
 
 print(kmedoids.labels_)
+print("ARI: ", ari_score(labels, kmedoids.labels_))
+print("NMI: ", nmi_score(labels, kmedoids.labels_))
+
 visualize_trajectory(data, kmedoids.labels_)
