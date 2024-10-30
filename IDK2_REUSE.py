@@ -42,5 +42,3 @@ def idk_square(list_of_distributions, psi1,  psi2, t1=100, t2=100):
     idkm2_mean = np.average(idk_map2, axis=0) / t1
     idk_score = np.dot(idk_map2, idkm2_mean.T)
     return idk_score
-
-
