@@ -71,9 +71,9 @@ class IDK:
             idkmap.append(np.sum(score[index_lines[i]:index_lines[i + 1]], axis=0) / (index_lines[i + 1] - index_lines[i]))
         idkmap = np.array(idkmap)
 
-        idkm2_mean = np.average(idkmap, axis=0) / estimators
-        idk_score = np.dot(idkmap, idkm2_mean.T)
-        return idk_score
+        # idkm2_mean = np.average(idkmap, axis=0) / estimators
+        # idk_score = np.dot(idkmap, idkm2_mean.T)
+        return idkmap
 
     def idk_square(self, data, psi1=4, psi2=4, estimators1=100, estimators2=100):
         alldata = []
@@ -91,8 +91,8 @@ class IDK:
         idkmap1 = np.array(idkmap1)
 
         score2 = self.inne(idkmap1, psi2, estimators2)
-        idkm2_mean = np.average(score2, axis=0) / estimators2
-        idk_score = np.dot(score2, idkm2_mean.T)
+        # idkm2_mean = np.average(score2, axis=0) / estimators2
+        # idk_score = np.dot(score2, idkm2_mean.T)
         return idk_score
 
     def k2(self, data, psi=4, estimators=100):
