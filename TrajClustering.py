@@ -6,12 +6,17 @@ import matplotlib.pyplot as plt
 from numba.cuda.simulator import kernel
 from scipy.spatial import distance
 from scipy.stats import wasserstein_distance
-from scipy.stats import gaussian_kde
-from sklearn.datasets import load_digits
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.gaussian_process.kernels import PairwiseKernel
+from sklearn.metrics.pairwise import rbf_kernel
+
+
 from sklearn.manifold import MDS
 from tslearn.metrics import dtw
 
 from utils.dataloader import load_and_preprocess_data
+from utils.distance_measure import gdk
 from IDK import *
 
 plt.style.use('ggplot')
@@ -23,44 +28,33 @@ class TrajClustering:
         self.score = []
         pass
 
-    def idk(self):
+    def idk2_metric(self):
         idk = IDK(random_seed=42)
         self.score = idk.idk_square(self.data, 16, 16, 400, 400)
 
-        # colors = np.array(["#000000", "#43cc5c"])
-        # for i in range(len(self.data)):
-        #     plt.plot(self.data[i][:, 0], self.data[i][:, 1], color=plt.cm.jet(self.score[i]))
-        # plt.show()
-        #
+    def idk_metric(self):
+        idk = IDK(random_seed=42)
+        self.score = idk.idk(self.data, 16, 400)
+
     def hausdorff_metric(self):
         pass
 
     def dtw_metric(self):
         self.score = np.zeros((len(self.data), len(self.data)))
         for i in range(len(self.data)):
-            for j in range(len(self.data)):
+            for j in range(i, len(self.data)):
                 self.score[i][j] = dtw(self.data[i], self.data[j])
-
+                self.score[j][i] = self.score[i][j]
 
     def emd_metric(self):
         pass
 
     def gdk_metric(self):
-
-        alldata = []
-        index_lines = np.array([0])
+        self.score = np.zeros((len(self.data), len(self.data)))
         for i in range(len(self.data)):
-            for data_point in self.data[i]:
-                alldata.append(data_point)
-            index_lines = np.append(index_lines, len(alldata))
-        alldata = np.array(alldata)
-        kernel = gaussian_kde(alldata.T)
-        self.score = np.zeros((len(self.data), len(alldata)))
-
-        for i in range(len(self.data)):
-            self.score[i] = kernel(self.data[i].T).shape
-        print(self.score.shape)
-
+            for j in range(i, len(self.data)):
+                self.score[i][j] = gdk(self.data[i], self.data[j])
+                self.score[j][i] = self.score[i][j]
 
     def plot_mds(self):
         print("plot")
@@ -82,8 +76,10 @@ class TrajClustering:
         self.load_data(dataset_name)
         start_time = time.time()
         match distance_metric:
+            case 'IDK2':
+                self.idk2_metric()
             case 'IDK':
-                self.idk()
+                self.idk_metric()
             case 'Hausdorff':
                 self.hausdorff_metric()
             case 'DTW':
@@ -92,7 +88,10 @@ class TrajClustering:
                 self.emd_metric()
             case 'GDK':
                 self.gdk_metric()
-
+            case _:
+                print(f"Distance metric {distance_metric} not found")
+        end_time = time.time()
+        print(f"Time taken: {end_time - start_time}")
         return
 
     def run_clustering (self, dataset_name, clustering_method):

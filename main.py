@@ -21,5 +21,5 @@ import TrajClustering as tc
 
 if __name__ == "__main__":
     traj = tc.TrajClustering()
-    traj.run_distance('geolife', 'GDK')
+    traj.run_distance('geolife', 'IDK')
     traj.plot_mds()

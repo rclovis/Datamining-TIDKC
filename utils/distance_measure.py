@@ -28,6 +28,7 @@ def emd(p, q):
     return emd_dist
 
 def gdk(p, q):
+    '''
     # Basic empirical estimation
     k_g = np.sum(rbf_kernel(p, q)) / (p.shape[0] * q.shape[0])
 
@@ -48,6 +49,12 @@ def gdk(p, q):
     transformed_data_rff_q = fmap_rff.transform(q)
     rff = np.dot(np.mean(transformed_data_rff_p, axis=0), np.mean(transformed_data_rff_q, axis=0))
     # print(rff)
+    '''
+
+    # faster implementation, honestly I don't know why but it's faster
+    gamma = 1.0 / p.shape[1]
+    similarity_matrix = rbf_kernel(p, q, gamma=gamma)
+    k_g = np.mean(similarity_matrix)
 
     return k_g
 
