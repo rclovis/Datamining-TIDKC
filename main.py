@@ -2,11 +2,12 @@ from IDK import *
 import scipy.io as io
 import matplotlib
 import matplotlib.pyplot as plt
-plt.style.use('ggplot')
+
+plt.style.use("ggplot")
 
 if __name__ == "__main__":
     raw_mat = io.loadmat("./datasets/cross.mat")
-    data = np.array(raw_mat['data'][0])
+    data = np.array(raw_mat["data"][0])
     # data = data[:100]
 
     idk = IDK(random_seed=42)
