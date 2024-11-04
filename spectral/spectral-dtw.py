@@ -1,3 +1,4 @@
+# BUGGY!!!!!!!
 from sklearn.cluster import SpectralClustering
 import os, sys
 import tslearn.metrics as metrics
@@ -23,7 +24,6 @@ num_clusters = len(set(labels))
 dists = metrics.cdist_dtw(data)
 
 # Fit and predict the spectral model with the distance matrix
-# k = Counter(label)
 
 spectrals = SpectralClustering(n_clusters=num_clusters, random_state=0, affinity='nearest_neighbors')
 
