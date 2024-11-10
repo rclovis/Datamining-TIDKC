@@ -1,5 +1,6 @@
 import numpy as np
 from local_contrast import get_lc
+from scipy.stats import rankdata
 from scipy.spatial.distance import pdist, squareform
 
 
