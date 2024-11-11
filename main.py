@@ -22,8 +22,7 @@ import TrajClustering as tc
 if __name__ == "__main__":
     traj = tc.TrajClustering()
     traj.load_dataset('geolife')
-    traj.plot_ground_truth()
-    traj.run_distance('EMD')
+    traj.run_distance('IDK2')
     traj.plot_mds()
-    traj.run_clustering('Spectral', 10)
-    traj.plot_clusters()
+    # traj.run_clustering('KMeans', 10)
+    # traj.plot_clusters()
