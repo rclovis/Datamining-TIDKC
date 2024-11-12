@@ -1,5 +1,5 @@
 """
-It computes trajectory distance, including hausdoff, dtw, emd, gdk.
+It computes trajectory distance, including hausdoff distance, dtw distance, emd distance, gdk similarity.
 p, q are two numpy.ndarray with shape (d, 2).
 """
 
