@@ -1,6 +1,6 @@
 from sklearn_extra.cluster import KMedoids
 import numpy as np
-from distance_measure import hausdorff_distance
+from utils.distance_measure import hausdorff_distance
 
 from utils.dataloader import load_and_preprocess_data
 from utils.visualizer import visualize_trajectory
