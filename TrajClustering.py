@@ -16,6 +16,8 @@ from tslearn.metrics import dtw
 
 from utils.dataloader import load_and_preprocess_data
 from utils.distance_measure import gdk
+from sklearn.metrics import normalized_mutual_info_score
+from sklearn.metrics import adjusted_rand_score
 from IDK import *
 
 plt.style.use('ggplot')
@@ -109,6 +111,7 @@ class TrajClustering:
             sys.exit(1)
 
     def run_distance (self, distance_metric):
+        print(f"Running distance metric {distance_metric}")
         start_time = time.time()
         match distance_metric:
             case 'IDK2':
@@ -127,9 +130,10 @@ class TrajClustering:
                 print(f"Distance metric {distance_metric} not found")
         end_time = time.time()
         print(f"Time taken: {end_time - start_time}")
-        return self.score
+        return
 
     def run_clustering (self, clustering_method, number_of_clusters=3):
+        print(f"Running clustering method {clustering_method}")
         start_time = time.time()
         match clustering_method:
             case 'KMeans':
@@ -140,4 +144,10 @@ class TrajClustering:
                 print(f"Clustering method {clustering_method} not found")
         end_time = time.time()
         print(f"Time taken: {end_time - start_time}")
-        return
+        print("Computing NMI")
+        nmi = normalized_mutual_info_score(self.ground_truth_labels, self.labels)
+        print(nmi)
+        print("Computing ARI")
+        ari = adjusted_rand_score(self.ground_truth_labels, self.labels)
+        print(ari)
+        return nmi, ari
