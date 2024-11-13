@@ -63,12 +63,25 @@ def tidkc(D: np.ndarray, k: int):
     clusters_sum = np.zeros((k, num_features)) # sum of the datapoints per cluster
     datapoints_dict = {} # actual datapoints stored per cluster
 
+    # is this part even necessary???????????
     # populate datapoints_dict + clusters_sum with seeds
     for i in range(k):
+        # datapoints_dicts contains key:value
+        # [cluster's number (index in c_seeds)] : [seed's value, aka coordinates]
         datapoints_dict[i] = G[c_seeds[i], :]
         clusters_sum[i, :] = np.sum(datapoints_dict[i][1:], axis=0)
 
+    # "It is interesting to note that, independent of the algorithm
+    # used to maximize the objective function, the similarity distribution 
+    # derived from the kernel K can be used to describe the data
+    # distribution of a dataset as follows:
+    # Definition 2. Given cluster Cj, j = 1 . . . , k in a dataset D
+    # and the distributional kernel K derived from D, the K˜ similarity
+    # distribution is defined as:
+    # K˜(x|D) = maxj K(δ(x), PCj), ∀x ∈ Rd"
+
     # we have to calculate K2(δ(g), PCL) for all points g and clusters CL?
+    # "K2 is just the last four lines of IDK squared"?
     # where δ(g) = dirac measure of g (1 if g in CL, 0 if not)
 
 
