@@ -1,14 +1,15 @@
 import numpy as np
-from local_contrast import get_lc
-from scipy.stats import rankdata
 from scipy.spatial.distance import pdist, squareform
+from scipy.stats import rankdata
+
+from local_contrast import get_lc
 
 
 def find_mode(dataset, k, knn) -> np.ndarray:
     # inputs: dataset, k, knn
     # outputs: ID (indices of cluster centres in the dataset)
     mean_array = np.mean(dataset, axis=0)
-    density = np.dot(mean_array, dataset)
+    density = np.dot(dataset, mean_array)
     dist = squareform(pdist(dataset, metric="euclidean"))
 
     lc_density = get_lc(dist, density, knn)
@@ -48,4 +49,3 @@ def find_mode(dataset, k, knn) -> np.ndarray:
     sorted_mult = np.argsort(mult)[::-1]
 
     return sorted_mult[:k]
-
