@@ -1,10 +1,14 @@
 import numpy as np
 from scipy.spatial import distance_matrix
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import sys, os
+>>>>>>> b4ffe4c (resolve merge conflicts)
 from ..IDK import *
 from .local_contrast import local_contrast
-from .find_mode import find_mode
 from matplotlib import pyplot as plt
+<<<<<<< HEAD
 # what is going on :(
 =======
 from scipy.stats import rankdata
@@ -21,6 +25,13 @@ from .local_contrast import local_contrast
 
 # 1: trajectory -> point mapping (RKHS, ruckus package?)
 <<<<<<< HEAD
+=======
+from local_contrast import local_contrast
+from find_mode import *
+
+""" sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]))
+from IDK import * """
+>>>>>>> b4ffe4c (resolve merge conflicts)
 
 
 """TIDKC Algorithm -- from paper
@@ -41,7 +52,7 @@ from .local_contrast import local_contrast
 """
 
 
-def tidkc(D: np.ndarray, k: int):
+def tidkc(D: np.ndarray, k: int, idk:IDK):
     """Clustering using IDK
     D : dataset of trajectories {T1..Ti}
     k : number of clusters to identify
@@ -53,7 +64,6 @@ def tidkc(D: np.ndarray, k: int):
     rho = 0.9  # growth rate
 
     ## Step 1 - Map each trajectory in RKHS using K1
-    idk = IDK(random_seed=42)
     G = idk.idk(D, psi, t)
 
     ## Step 2 - Select k cluster seeds using local-constrast
@@ -65,11 +75,18 @@ def tidkc(D: np.ndarray, k: int):
 
     ## Step 4 - Initialize T, the similarity threshold
     # τ ← max g∈N, L∈[1,k] K2(δ(g), PCL)
-    num_features = G.shape[1]
+    cluster_means = G[c_seeds]
+    max_similarity = -np.inf
+    
+    for g in N:
+        for l in range(k):
+            similarity_score = np.dot(idk.k2(g.reshape(1, -1)), cluster_means[l])
+            if similarity_score > max_similarity:
+                max_similarity = similarity_score
 
-    clusters_sum = np.zeros((k, num_features)) # sum of the datapoints per cluster
-    datapoints_dict = {} # actual datapoints stored per cluster
+    tau = max_similarity
 
+<<<<<<< HEAD
     # is this part even necessary???????????
     # populate datapoints_dict + clusters_sum with seeds
     for i in range(k):
@@ -117,11 +134,14 @@ def tidkc(D: np.ndarray, k: int):
 <<<<<<< HEAD
     T = np.argmax()
     tau = 0
+=======
+    return tau
+>>>>>>> b4ffe4c (resolve merge conflicts)
 
     ## Steps 5 & 9 - begin loop, set conditions for ending loop:
     while(abs(N) != 0 and T >= 0.00001):
         ## Step 6 - update value of tau (τ)
-        tau = rho * tau
+        tau *= rho
 
         ## Step 7 - Expand cluster Cj to include unassigned point
             ## g ∈ N for j = arg max∈[1,k] K2(δ(g), PC ) and K2(δ(g), PCj ) > τ
