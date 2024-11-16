@@ -23,7 +23,7 @@ from IDK import * """
 7:  Expand cluster Cj to include unassigned point
     g ∈ N for j = arg max∈[1,k] K2(δ(g), PC ) and K2(δ(g), PCj ) > τ
 8:  N ← G \\ ∪j Cj
-9:  until |N | = 0 or τ < 0.00001
+9:  until |N| = 0 or τ < 0.00001
 10: Assign each unassigned point g to nearest cluster C via K2(δ(g), PC )
 11: Cluster Ej ⊂ D corresponds to Cj ⊂ G, j = 1, . . . , k
 """
@@ -44,8 +44,12 @@ def tidkc(D: np.ndarray, k: int, idk:IDK):
     G = idk.idk(D, psi, t)
 
     ## Step 2 - Select k cluster seeds using local-constrast
+    ## and initialise cluster array cj of length k
     c_seeds = find_mode(G, k, kn)
-
+    Cj = np.empty(k, dtype=np.ndarray)
+    for i in range(k):
+        Cj[i].append(c_seeds[i])
+    
     ## Step 3 - Initialize N, the difference between G and the set of all
     ## cluster seeds
     N = np.delete(G, c_seeds, axis=0)
@@ -64,16 +68,19 @@ def tidkc(D: np.ndarray, k: int, idk:IDK):
     tau = max_similarity
 
     ## Steps 5 & 9 - begin loop, set conditions for ending loop:
-    while(abs(N) != 0 and T >= 0.00001):
+    while(abs(N) != 0 and tau >= 0.00001):
         ## Step 6 - update value of tau (τ)
         tau *= rho
 
         ## Step 7 - Expand cluster Cj to include unassigned point
             ## g ∈ N for j = arg max∈[1,k] K2(δ(g), PC ) and K2(δ(g), PCj ) > τ
+        for g in G:
+
 
         
         ## Step 8 - update value of N:  N ← G \\ ∪j Cj
-        N = np.delete(G, c_seeds, axis=0)
+        # G = np.delete(G, c_seeds, axis=0)
+        # ^ not correct, we need to delete new points in Cj from G
     
     ## Step 10 - Assign each unassigned point g to nearest cluster C
     ## via K2(δ(g), PC )
