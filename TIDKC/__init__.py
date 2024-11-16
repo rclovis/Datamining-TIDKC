@@ -1,1 +1,0 @@
-from .tidkc import tidkc

@@ -1,9 +1,6 @@
 import numpy as np
 from local_contrast import get_lc
-<<<<<<< HEAD
 from scipy.stats import rankdata
-=======
->>>>>>> 544b9c5 (Reorganize TIDKC)
 from scipy.spatial.distance import pdist, squareform
 
 
@@ -51,3 +48,4 @@ def find_mode(dataset, k, knn) -> np.ndarray:
     sorted_mult = np.argsort(mult)[::-1]
 
     return sorted_mult[:k]
+
