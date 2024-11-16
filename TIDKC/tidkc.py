@@ -56,12 +56,12 @@ def tidkc(D: np.ndarray, k: int, idk:IDK):
 
     ## Step 4 - Initialize T, the similarity threshold
     # τ ← max g∈N, L∈[1,k] K2(δ(g), PCL)
-    cluster_means = G[c_seeds]
+    cluster_seeds = G[c_seeds]
     max_similarity = -np.inf
     
     for g in N:
         for l in range(k):
-            similarity_score = np.dot(idk.k2(g.reshape(1, -1)), cluster_means[l])
+            similarity_score = np.dot(idk.k2(g.reshape(1, -1)), cluster_seeds[l])
             if similarity_score > max_similarity:
                 max_similarity = similarity_score
 
@@ -74,13 +74,21 @@ def tidkc(D: np.ndarray, k: int, idk:IDK):
 
         ## Step 7 - Expand cluster Cj to include unassigned point
             ## g ∈ N for j = arg max∈[1,k] K2(δ(g), PC ) and K2(δ(g), PCj ) > τ
-        for g in G:
-
-
-        
+        newly_assigned_points = []
+        for g in N:
+            max_similarity = -np.inf
+            best_cluster = -1
+            for j in range(k):
+                similarity_score = np.dot(idk.k2(g.reshape(1, -1)), cluster_seeds[j])
+                if similarity_score > max_similarity:
+                    max_similarity = similarity_score
+                    best_cluster = j
+            if max_similarity > tau:
+                Cj[best_cluster].append(g)
+                newly_assigned_points.append(g)
+            
         ## Step 8 - update value of N:  N ← G \\ ∪j Cj
-        # G = np.delete(G, c_seeds, axis=0)
-        # ^ not correct, we need to delete new points in Cj from G
+        N = np.array([g for g in N if g not in newly_assigned_points])
     
     ## Step 10 - Assign each unassigned point g to nearest cluster C
     ## via K2(δ(g), PC )
