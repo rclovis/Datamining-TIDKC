@@ -1,7 +1,7 @@
 import numpy as np
 
-import find_mode
-from IDK import *
+from find_mode import find_mode
+from IDK import IDK
 from utils.dataloader import load_and_preprocess_data
 
 
