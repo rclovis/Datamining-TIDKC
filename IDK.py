@@ -94,10 +94,6 @@ class IDK:
         # idkm2_mean = np.average(score2, axis=0) / estimators2
         # score2 = np.dot(score2, idkm2_mean.T)
         return score2
-<<<<<<< HEAD
-=======
-
->>>>>>> b4ffe4c (resolve merge conflicts)
 
     def k2(self, data, psi=4, estimators=100):
         score = self.inne(data, psi, estimators)
