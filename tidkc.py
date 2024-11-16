@@ -24,8 +24,6 @@ from scipy.spatial.distance import pdist, squareform
 11: Cluster Ej ⊂ D corresponds to Cj ⊂ G, j = 1, . . . , k
 """
 
-    
-
 def tidkc(D: np.ndarray, k: int, idk:IDK):
     """Clustering using IDK
     D : dataset of trajectories {T1..Ti}
@@ -59,8 +57,6 @@ def tidkc(D: np.ndarray, k: int, idk:IDK):
     for g in N:
         for l in range(k):
             similarity_score = np.dot(idk.k2(N), cluster_seeds[l])
-            if similarity_score > max_similarity:
-                max_similarity = similarity_score
 
     tau = max_similarity
 
