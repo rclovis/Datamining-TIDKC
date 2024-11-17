@@ -1,10 +1,4 @@
-import random
-import sys
-from random import sample
-
 import numpy as np
-from scipy.sparse import csr_matrix
-from scipy.spatial.distance import cdist
 from sklearn.metrics import euclidean_distances
 from sklearn.utils import check_random_state
 

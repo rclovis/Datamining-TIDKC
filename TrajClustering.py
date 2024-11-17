@@ -1,8 +1,8 @@
 import sys
 import time
 
-import matplotlib
 import matplotlib.pyplot as plt
+import numpy as np
 from scipy.spatial import distance
 from scipy.stats import wasserstein_distance
 from sklearn.cluster import KMeans, SpectralClustering
