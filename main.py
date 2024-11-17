@@ -1,8 +1,10 @@
-from IDK import *
-import scipy.io as io
 import matplotlib
 import matplotlib.pyplot as plt
+import scipy.io as io
+
 import TrajClustering as tc
+from IDK import *
+
 # plt.style.use('ggplot')
 
 # if __name__ == "__main__":
@@ -18,8 +20,8 @@ import TrajClustering as tc
 
 if __name__ == "__main__":
     traj = tc.TrajClustering()
-    traj.load_dataset('geolife')
-    traj.run_distance('IDK2')
-    traj.plot_mds()
-    traj.run_clustering('Spectral', 10)
+    traj.load_dataset("TRAFFIC")
+    # traj.run_distance("IDK2")
+    # traj.plot_mds()
+    traj.run_clustering("TIDKC", 11)
     traj.plot_clusters()
