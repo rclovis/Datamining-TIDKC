@@ -1,10 +1,7 @@
-import TrajClustering as tc
-from IDK import *
+from TrajClustering import TrajClustering
 
 if __name__ == "__main__":
-    traj = tc.TrajClustering()
+    traj = TrajClustering()
     traj.load_dataset("TRAFFIC")
-    # traj.run_distance("IDK2")
-    # traj.plot_mds()
-    traj.run_clustering("TIDKC", 11)
+    traj.run_clustering("TIDKC", number_of_clusters=11)
     traj.plot_clusters()
