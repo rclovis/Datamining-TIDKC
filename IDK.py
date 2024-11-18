@@ -24,7 +24,7 @@ class IDK:
 
         isolation_scores = np.ones([data.shape[0], estimators * psi])
         for i in range(estimators):
-            print(f"idk_metric: {i}/{len(estimators)}")
+            print(f"idk_metric: {i}/{estimators}")
 
             # choose ψ samples from dataset to use as centroid
             samples = check_random_state(seeds[i]).choice(x_data, psi, replace=False)
