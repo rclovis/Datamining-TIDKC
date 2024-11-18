@@ -85,7 +85,7 @@ class TrajClustering:
         self.labels = kmeans.fit_predict(self.score)
 
     def tidkc_clustering(self, number_of_clusters):
-        self.labels = tidkc(self.data, number_of_clusters, rho=0.9)
+        self.labels = tidkc(self.data, number_of_clusters)
 
     def plot_mds(self):
         print("plotting MDS")

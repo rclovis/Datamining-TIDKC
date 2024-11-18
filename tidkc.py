@@ -49,7 +49,7 @@ def seed_selection(D, k, kn):
     return Cj, c_seeds
 
 
-def tidkc(D: np.ndarray, k: int, rho: float = 0.9):
+def tidkc(D: np.ndarray, k: int, rho: float = 0.8):
     """Clustering using IDK
     D : dataset of trajectories {T1..Ti}
     k : number of clusters to identify
@@ -109,22 +109,16 @@ def tidkc(D: np.ndarray, k: int, rho: float = 0.9):
         ## Step 8 - update value of N:  N ← G \\ ∪j Cj
         N = np.setdiff1d(N, newly_assigned_points)
 
-    return to_label(Cj, D)
-
     ## TODO: Step 10 - Assign each unassigned point g to nearest cluster C
     ## via K2(δ(g), PC )
-    while len(G) > 0:
-        pass
+    for i in N:
+        min_cluster: int = -1
+        min_similarity: float = 1.0
+        for j in range(k):
+            similarity = cluster_similarity(K2[i], extract_cluster(K2, Cj[j]))
+            if similarity < min_similarity:
+                min_cluster = j
+                min_similarity = similarity
+        Cj[min_cluster] = np.append(Cj[min_cluster], i)
 
-    ## Step 11 - Cluster Ej ⊂ D corresponds to Cj ⊂ G,j = 1,...,k
-    r = []
-    for c in Cj:
-        r.append(list(map(lambda x: D[x], c)))
-    return r
-
-
-# print("started main")
-# data, labels = load_and_preprocess_data("TRAFFIC")
-# print("created dataset")
-# N = tidkc(data, k=11)
-# # print(N)
+    return to_label(Cj, D)
