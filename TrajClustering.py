@@ -17,6 +17,7 @@ from tslearn.metrics import dtw
 from utils.dataloader import load_and_preprocess_data
 from utils.distance_measure import gdk
 from sklearn.metrics import normalized_mutual_info_score
+from sklearn.metrics import adjusted_mutual_info_score
 from sklearn.metrics import adjusted_rand_score
 from IDK import *
 
@@ -32,7 +33,7 @@ class TrajClustering:
 
     def idk2_metric(self):
         idk = IDK(random_seed=42)
-        self.score = idk.idk_square(self.data, 16, 16, 400, 400)
+        self.score = idk.idk_square(self.data, 8, 8, 200, 200)
 
     def idk_metric(self):
         idk = IDK(random_seed=42)
@@ -44,6 +45,7 @@ class TrajClustering:
             for j in range(i, len(self.data)):
                 self.score[i][j] = distance.directed_hausdorff(self.data[i], self.data[j])[0]
                 self.score[j][i] = self.score[i][j]
+            print(f"HD_metric: {i}/{len(self.data)}")
 
     def dtw_metric(self):
         self.score = np.zeros((len(self.data), len(self.data)))
@@ -51,6 +53,7 @@ class TrajClustering:
             for j in range(i, len(self.data)):
                 self.score[i][j] = dtw(self.data[i], self.data[j])
                 self.score[j][i] = self.score[i][j]
+            print(f"dtw_metric: {i}/{len(self.data)}")
 
     def emd_metric(self):
         self.score = np.zeros((len(self.data), len(self.data)))
@@ -60,6 +63,7 @@ class TrajClustering:
                 data2 = np.hstack(self.data[j])
                 self.score[i][j] = wasserstein_distance(data1, data2)
                 self.score[j][i] = self.score[i][j]
+            print(f"emd_metric: {i}/{len(self.data)}")
 
     def gdk_metric(self):
         self.score = np.zeros((len(self.data), len(self.data)))
@@ -67,18 +71,17 @@ class TrajClustering:
             for j in range(i, len(self.data)):
                 self.score[i][j] = gdk(self.data[i], self.data[j])
                 self.score[j][i] = self.score[i][j]
-
-    def spectral_clustering(self, number_of_clusters):
-        similarity = cosine_similarity(self.score)
-        print(similarity.shape)
-        spectral_clustering = SpectralClustering(n_clusters=number_of_clusters, affinity='precomputed', assign_labels='kmeans')
-        self.labels = spectral_clustering.fit_predict(similarity)
+            print(f"gdk_metric: {i}/{len(self.data)}")
 
     def kmeans_clustering(self, number_of_clusters):
         similarity = cosine_similarity(self.score)
-        print(similarity.shape)
         kmeans = KMeans(n_clusters=number_of_clusters)
-        self.labels = kmeans.fit_predict(self.score)
+        self.labels = kmeans.fit_predict(similarity)
+
+    def spectral_clustering(self, number_of_clusters):
+        similarity = cosine_similarity(self.score)
+        spectral_clustering = SpectralClustering(n_clusters=number_of_clusters, affinity='precomputed', assign_labels='kmeans')
+        self.labels = spectral_clustering.fit_predict(similarity)
 
     def plot_mds(self):
         print("plotting MDS")
@@ -104,8 +107,8 @@ class TrajClustering:
     def load_dataset(self, dataset_name):
         try:
             self.data, self.ground_truth_labels = load_and_preprocess_data(dataset_name)
-            self.data = self.data[:500]
-            self.ground_truth_labels = self.ground_truth_labels[:500]
+            # self.data = self.data[:500]
+            # self.ground_truth_labels = self.ground_truth_labels[:500]
         except FileNotFoundError:
             print(f"Dataset {dataset_name} not found")
             sys.exit(1)
@@ -130,7 +133,7 @@ class TrajClustering:
                 print(f"Distance metric {distance_metric} not found")
         end_time = time.time()
         print(f"Time taken: {end_time - start_time}")
-        return
+        return self.score
 
     def run_clustering (self, clustering_method, number_of_clusters=3):
         print(f"Running clustering method {clustering_method}")
@@ -144,10 +147,8 @@ class TrajClustering:
                 print(f"Clustering method {clustering_method} not found")
         end_time = time.time()
         print(f"Time taken: {end_time - start_time}")
-        print("Computing NMI")
-        nmi = normalized_mutual_info_score(self.ground_truth_labels, self.labels)
-        print(nmi)
-        print("Computing ARI")
-        ari = adjusted_rand_score(self.ground_truth_labels, self.labels)
-        print(ari)
-        return nmi, ari
+
+        nmi = adjusted_mutual_info_score(self.ground_truth_labels, self.labels)
+        print("NMI:", nmi)
+
+        return
