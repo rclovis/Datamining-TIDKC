@@ -187,6 +187,7 @@ The following hierarchy hint the purpose of each core file of the project.
 ```
 Datamining-TIDKC
 ├── datasets/                   # Folder containing the used datasets
+├── t2vec/                      # t2vec implementation
 ├── utils/                      ## Utilities for:
 │   ├── dataloader.py           #  -  loading datasets
 │   ├── distance_measure.py     #  -  using Hausdorff, DTW, EMD and GDK
@@ -199,7 +200,6 @@ Datamining-TIDKC
 ├── local_contrast.py           # Local-Constrast implementation
 ├── tidkc.py                    # TIDKC implementation
 ├── TrajClustering.py           # Class handling trajectory clustering
-├── t2vec/                      # t2vec implementation
 └── main.py                     # Main file
 ```
 
