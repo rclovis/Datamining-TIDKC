@@ -39,7 +39,7 @@ source <venv>/bin/activate
 ### Dependencies installation
 
 ```bash
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 ### Run
@@ -52,7 +52,7 @@ python main.py
 
 ## How to use
 
-The project's results are available using the `TrajClustring` class. It allows running the different trajectory clustering algorithms and distance measures on the provided datasets, and plotting the results.
+The project's results are available using the `TrajClustering` class. It allows running the different trajectory clustering algorithms and distance measures on the provided datasets, and plotting the results.
 
 **Available datasets**
 
@@ -187,6 +187,7 @@ The following hierarchy hint the purpose of each core file of the project.
 ```
 Datamining-TIDKC
 ├── datasets/                   # Folder containing the used datasets
+├── t2vec/                      # t2vec implementation
 ├── utils/                      ## Utilities for:
 │   ├── dataloader.py           #  -  loading datasets
 │   ├── distance_measure.py     #  -  using Hausdorff, DTW, EMD and GDK
