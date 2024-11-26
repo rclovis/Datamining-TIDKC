@@ -103,31 +103,3 @@ class IDK:
         # idkm2_mean = np.average(score2, axis=0) / estimators2
         # score2 = np.dot(score2, idkm2_mean.T)
         return score2
-
-    def k2(self, data, psi=4, estimators=100):
-        score = self.inne(data, psi, estimators)
-        # TODO: investigate weird
-        idkm2_mean = np.average(score, axis=0) / estimators
-        score = np.dot(score, idkm2_mean.T)
-        return score
-
-    def k2_draft(self, data, psi=4, estimators=100):
-        """
-        alldata = []"""
-        index_lines = np.array([0])
-
-        for i in range(len(data)):
-            # for data_point in data[i]:
-            # alldata.append(data_point)
-            index_lines = np.append(index_lines, len(alldata))
-        alldata = np.array(alldata)
-
-        score = self.inne(data, psi, estimators)
-        idkmap = []
-        for i in range(len(data)):
-            idkmap.append(
-                np.sum(score[index_lines[i] : index_lines[i + 1]], axis=0)
-                / (index_lines[i + 1] - index_lines[i])
-            )
-        idkmap = np.array(idkmap)
-        return idkmap.max()

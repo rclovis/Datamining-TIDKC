@@ -70,7 +70,6 @@ class TrajClustering:
     def spectral_clustering(self, number_of_clusters):
         similarity = cosine_similarity(self.score)
         print(similarity.shape)
-        print(similarity)
         spectral_clustering = SpectralClustering(
             n_clusters=number_of_clusters,
             affinity="precomputed",
