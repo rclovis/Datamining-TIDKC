@@ -27,4 +27,3 @@ tqdm==4.67.0
 threadpoolctl==3.5.0
 tslearn==0.6.3
 tzdata==2024.2
-
