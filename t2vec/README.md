@@ -50,7 +50,7 @@ The generated files for training are saved in `t2vec/data/`.
 ## Training
 
 ```shell
-$ python t2vec.py -vocab_size 18864 -criterion_name "KLDIV" -knearestvocabs "data/porto-vocab-dist-cell100.h5"
+$ sbatch --wait -o slurm.out run_t2vec.sbatch
 ```
 
 where 18866 is the output of last stage.
