@@ -163,7 +163,20 @@ tc = TrajClustering()
 tc.load_dataset("TRAFFIC")
 tc.run_distance("IDK")
 tc.plot_mds()
-tc.run_clustering("Spectral", 10)
+tc.run_clustering("Spectral", 11)
+tc.plot_clusters()
+```
+
+```python
+"""
+Create a class instance
+Load the "pedes3" dataset
+Run the "TIDKC" clustering algorithm for 3 clusters
+Plot the clustering results
+"""
+tc = TrajClustering()
+tc.load_dataset("pedes3")
+tc.run_clustering("TIDKC", 3)
 tc.plot_clusters()
 ```
 
