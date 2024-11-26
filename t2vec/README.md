@@ -1,4 +1,4 @@
-
+The code is modified from https://github.com/boathit/t2vec.git
 This repository contains the code used in our **ICDE-18** paper [Deep Representation Learning for Trajectory Similarity Computation](https://xiucheng.org/pdfs/icde18-t2vec.pdf).
 
 ## Requirements
