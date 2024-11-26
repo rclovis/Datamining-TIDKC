@@ -1,86 +1,203 @@
-A group project for CSIT 5210 (Data Mining and Knowledge Discovery)
-Group 3
-RABOT Clovis
-GONZALES Erwan
-LIU Runrong
-ZHANG Zexuan
-ARSHAD Muhammad Hassan
-SMITH Caroline
+# Implementation of TIDKC
 
+This is a group project implementation of _Distribution-Based Trajectory Clustering_ paper for CSIT5210 Data Mining and Knowledge Discovery course.
 
+**Paper citation**
 
-https://github.com/IsolationKernel/TIDKC
+Z. J. Wang, Y. Zhu and K. M. Ting, "Distribution-Based Trajectory Clustering," 2023 IEEE International Conference on Data Mining (ICDM), Shanghai, China, 2023, pp. 1379-1384, doi: 10.1109/ICDM58522.2023.00178.
 
+## How to run
 
+Create a python virtual environment:
 
-### Dataset Info
+```bash
+python -m venv <venv>
+```
 
-1. **Geolife**
+### Activation
 
-   - number of trajectories: 9192
-   - classes: 12
-   - keys: data, label
+And activate it depending of your platform
 
-   ![geolife](./datasets/visualization/geolife.png)
+**Using Bash/Zsh**
 
-2. **CASIA**
+```bash
+source <venv>/bin/activate
+```
 
-   - number of trajectories: 1500
-   - numer of classes: 15
-   - keys: data, class
+**Using Windows CMD**
 
-   ![CASIA](./datasets/visualization/CASIA.png)
+```cmd
+<venv>\Scripts\activate.bat
+```
 
-3. **cross**
+**Using Powershell**
 
-   - number of trajectories: 1900
-   - number of classes: 19
-   - keys: data, class
+```powershell
+<venv>\Scripts\Activate.ps1
+```
 
-   ![cross](./datasets/visualization/cross.png)
+### Dependencies installation
 
-4. **pedes3**
+```bash
+pip install -r requirement.txt
+```
 
-   - number of trajectories: 610
-   - number of classes: 4
-   - keys: data, class
+### Run
 
-   ![pedes3](./datasets/visualization/pedes3.png)
+While in the activated virtual environment
 
-5. **pedes4**
+```bash
+python main.py
+```
 
-   - number of trajectories: 710
-   - number of classes: 4
-   - keys: data, class
+## How to use
 
-   ![pedes4](./datasets/visualization/pedes4.png)
+The project's results are available using the `TrajClustring` class. It allows running the different trajectory clustering algorithms and distance measures on the provided datasets, and plotting the results.
 
-6. **TRAFFIC**
+**Available datasets**
 
-   - number of trajectories: 300
-   - number of classes: 11
-   - keys: data, class
+_string identifiers used by the program and their ground truth_
+|String identifer| # of clusters| # of trajectories |
+| -------------- | -----------: | ----------------: |
+| `"CASIA"` | 15 | 1500 |
+| `"cross"` | 19 | 1900|
+| `"cyclists"` | 3 | 494 |
+| `"geolife"` | 12 | 9192 |
+| `"pedes3"` | 3 | 610 |
+| `"pedes4"` | 4 | 710 |
+| `"TRAFFIC"` | 11 | 300 |
 
-   gpt-4:
+```python
+# Example
+tc = TrajClustering()
+# ...
+tc.load_dataset("TRAFFIC")
+```
 
-   > The loaded data from the 'TRAFFIC.mat' file is a 3-dimensional array with the shape (300, 50, 2). This suggests that the data consists of 300 trajectories, each with 50 data points, and each data point has 2 values.
-   >
-   > Generally, in trajectory data, each trajectory is a sequence of data points, where each data point is a multi-dimensional vector. Here, it seems each data point is a 2-dimensional vector (possibly representing coordinates like longitude and latitude, or x and y positions).
-   >
-   > So, in this case, the data is structured as follows:
-   >
-   > - The first dimension (300) represents the number of trajectories.
-   > - The second dimension (50) represents the number of data points in each trajectory.
-   > - The third dimension (2) represents the dimensionality of each data point.
+**Available distance measures**
 
-​	![TRAFFIC](./datasets/visualization/TRAFFIC.png)
+_string identifiers used by the program_
 
-7. **cyclists**
+- `"IDK2`
+- `"IDK`
+- `"Hausdorff`
+- `"DTW`
+- `"EMD`
+- `"GDK`
 
-   - number of trajectories: 494
-   - number of classes: 4
-   - keys: data, class
+```python
+# Example
+tc = TrajClustering()
+# ...
+tc.run_distance("IDK")
+```
 
-   > 'moving': 0, 'starting': 1, 'stopping': 2, 'waiting': 3
+**Available trajectory clustering algorithms**
 
-![cyclists](./datasets/visualization/cyclists.png)
+_string identifiers used by the program_
+
+- `"KMeans"`
+- `"Spectral"`
+- `"TIDKC"`
+
+> [!important] Important
+> "TIDKC" implementation is independant of the set distance measure,
+> it will always result in using first and second level IDK.
+
+```python
+# Example
+tc = TrajClustering()
+# ... set a distance measure
+tc.run_clustering("Spectral", 10)
+```
+
+```python
+# Example
+tc = TrajClustering()
+# ... no need for setting a distance measure
+tc.run_clustering("TIDKC", 7)
+```
+
+> [!note] Note
+> `run_clustering` method takes 2 parameters:
+>
+> - the string identifier,
+> - and the number of clusters to find.
+
+**Plot MDS representation**
+
+After setting a metric, you can plot its MDS.
+
+```python
+# Example
+tc = TrajClustering()
+# ... run distance measure
+tc.plot_mds()
+```
+
+**Plot trajectory clustering**
+
+After running a clustering algorithm you can plot its results.
+
+```python
+# Example
+tc = TrajClustering()
+# ... run trajectory clustering
+tc.plot_clusters()
+```
+
+### Examples
+
+Those are example demonstrating full usage of the `TrajClustering` class.
+
+```python
+"""
+Create a class instance
+Load the "TRAFFIC" dataset
+Uses the "IDK" distance measure
+Plot the "IDK" results using MDS
+Run the "Spectral" clustering algorithm for 10 clusters
+Plot the clustering results
+"""
+tc = TrajClustering()
+tc.load_dataset("TRAFFIC")
+tc.run_distance("IDK")
+tc.plot_mds()
+tc.run_clustering("Spectral", 10)
+tc.plot_clusters()
+```
+
+## Project structure
+
+The following hierarchy hint the purpose of each core file of the project.
+
+```
+Datamining-TIDKC
+├── datasets/                   # Folder containing the used datasets
+├── utils/                      ## Utilities for:
+│   ├── dataloader.py           #  -  loading datasets
+│   ├── distance_measure.py     #  -  using Hausdorff, DTW, EMD and GDK
+│   ├── eval_clusters.py        #  -  calculating ARI and NMI metrics
+│   └── visualizer.py           #  -  ploting trajectories
+├── cyclistData.py              # Code preparing the Cyclist
+│                                 dataset for consumption
+├── find_mode.py                # FindMode step implementation
+├── IDK.py                      # IDK implementation
+├── local_contrast.py           # Local-Constrast implementation
+├── tidkc.py                    # TIDKC implementation
+├── TrajClustering.py           # Class handling trajectory clustering
+└── main.py                     # Main file
+```
+
+## Members
+
+Group #3
+
+- RABOT Clovis
+- GONZALES Erwan
+- LIU Runrong
+- SMITH Caroline
+- ZHANG Zexuan
+- ARSHAD Muhammad Hassan
+
+Project URL: https://github.com/rclovis/Datamining-TIDKC
