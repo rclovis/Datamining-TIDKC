@@ -123,8 +123,6 @@ class TrajClustering:
     def load_dataset(self, dataset_name):
         try:
             self.data, self.ground_truth_labels = load_and_preprocess_data(dataset_name)
-            self.data = self.data[:500]
-            self.ground_truth_labels = self.ground_truth_labels[:500]
         except FileNotFoundError:
             print(f"Dataset {dataset_name} not found")
             sys.exit(1)
