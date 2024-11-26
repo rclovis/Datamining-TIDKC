@@ -199,6 +199,7 @@ Datamining-TIDKC
 ├── local_contrast.py           # Local-Constrast implementation
 ├── tidkc.py                    # TIDKC implementation
 ├── TrajClustering.py           # Class handling trajectory clustering
+├── t2vec/                      # t2vec implementation
 └── main.py                     # Main file
 ```
 
